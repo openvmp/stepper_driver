@@ -28,13 +28,14 @@ class StepperDriverInterface {
  public:
   StepperDriverInterface(rclcpp::Node *node,
                          const std::string &interface_prefix);
+  virtual ~StepperDriverInterface() {}
 
   rclcpp::Publisher<std_msgs::msg::Int32>::SharedPtr param_ppr;
 
   rclcpp::Service<stepper_driver::srv::ParamPprGet>::SharedPtr param_ppr_get;
   rclcpp::Service<stepper_driver::srv::ParamPprSet>::SharedPtr param_ppr_set;
 
- private:
+ protected:
   rclcpp::Node *node_;
 
   virtual void param_ppr_get_handler_(
