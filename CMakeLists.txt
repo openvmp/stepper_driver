@@ -51,11 +51,11 @@ add_library(${PROJECT_NAME}_native ${project_SOURCE_FILES})
 target_link_libraries(${PROJECT_NAME}_native ${rclcpp_LIBRARIES} "${cpp_typesupport_target}")
 ament_target_dependencies(${PROJECT_NAME}_native ${project_DEPENDENCIES})
 ament_export_targets(${PROJECT_NAME}_native_library HAS_LIBRARY_TARGET)
-ament_export_dependencies(rclcpp)
+ament_export_dependencies(${project_DEPENDENCIES})
 ament_export_include_directories(include)
 install(TARGETS ${PROJECT_NAME}_native
   EXPORT ${PROJECT_NAME}_native_library
-  LIBRARY DESTINATION lib/${PROJECT_NAME}
+  LIBRARY DESTINATION lib
 )
 install(
   DIRECTORY include/${PROJECT_NAME}/
