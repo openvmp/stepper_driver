@@ -13,6 +13,7 @@
 #include <memory>
 #include <string>
 
+#include "rclcpp/callback_group.hpp"
 #include "rclcpp/rclcpp.hpp"
 #include "std_msgs/msg/int32.hpp"
 #include "stepper_driver/srv/param_ppr_get.hpp"
@@ -34,6 +35,7 @@ class StepperDriverInterface {
 
  protected:
   rclcpp::Node *node_;
+  rclcpp::CallbackGroup::SharedPtr callback_group_;
   rclcpp::Parameter interface_prefix_;
 
   virtual void param_ppr_get_handler_(

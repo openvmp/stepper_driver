@@ -1,3 +1,3 @@
 int32 ppr
 ---
-int32 status_code
+int32 exception_code
