@@ -23,10 +23,10 @@ namespace stepper_driver {
 
 class Node;
 
-class StepperDriverInterface {
+class Interface {
  public:
-  StepperDriverInterface(rclcpp::Node *node);
-  virtual ~StepperDriverInterface() {}
+  Interface(rclcpp::Node *node);
+  virtual ~Interface() {}
 
   rclcpp::Publisher<std_msgs::msg::Int32>::SharedPtr param_ppr;
 
@@ -37,6 +37,8 @@ class StepperDriverInterface {
   rclcpp::Node *node_;
   rclcpp::CallbackGroup::SharedPtr callback_group_;
   rclcpp::Parameter interface_prefix_;
+
+  std::string get_prefix_();
 
   virtual void param_ppr_get_handler_(
       const std::shared_ptr<stepper_driver::srv::ParamPprGet::Request> request,
