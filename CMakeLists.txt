@@ -20,6 +20,7 @@ find_package(rosidl_default_generators REQUIRED)
 rosidl_generate_interfaces(${PROJECT_NAME}
   "srv/ParamPprGet.srv"
   "srv/ParamPprSet.srv"
+  "srv/VelocitySet.srv"
 )
 rosidl_get_typesupport_target(cpp_typesupport_target
   ${PROJECT_NAME} "rosidl_typesupport_cpp")

@@ -38,6 +38,11 @@ Interface::Interface(rclcpp::Node *node)
       std::bind(&Interface::param_ppr_set_handler_, this,
                 std::placeholders::_1, std::placeholders::_2),
       ::rmw_qos_profile_default, callback_group_);
+  velocity_set = node_->create_service<stepper_driver::srv::VelocitySet>(
+      prefix + "/velocity/set",
+      std::bind(&Interface::velocity_set_handler_, this,
+                std::placeholders::_1, std::placeholders::_2),
+      ::rmw_qos_profile_default, callback_group_);
 
   RCLCPP_DEBUG(node_->get_logger(), "Interface::Interface(): ended");
 }

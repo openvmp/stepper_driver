@@ -18,6 +18,7 @@
 #include "std_msgs/msg/int32.hpp"
 #include "stepper_driver/srv/param_ppr_get.hpp"
 #include "stepper_driver/srv/param_ppr_set.hpp"
+#include "stepper_driver/srv/velocity_set.hpp"
 
 namespace stepper_driver {
 
@@ -32,6 +33,7 @@ class Interface {
 
   rclcpp::Service<stepper_driver::srv::ParamPprGet>::SharedPtr param_ppr_get;
   rclcpp::Service<stepper_driver::srv::ParamPprSet>::SharedPtr param_ppr_set;
+  rclcpp::Service<stepper_driver::srv::VelocitySet>::SharedPtr velocity_set;
 
  protected:
   rclcpp::Node *node_;
@@ -46,6 +48,9 @@ class Interface {
   virtual void param_ppr_set_handler_(
       const std::shared_ptr<stepper_driver::srv::ParamPprSet::Request> request,
       std::shared_ptr<stepper_driver::srv::ParamPprSet::Response> response) = 0;
+  virtual void velocity_set_handler_(
+      const std::shared_ptr<stepper_driver::srv::VelocitySet::Request> request,
+      std::shared_ptr<stepper_driver::srv::VelocitySet::Response> response) = 0;
 };
 
 }  // namespace stepper_driver
