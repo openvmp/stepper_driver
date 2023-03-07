@@ -15,18 +15,19 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(rosidl_default_generators REQUIRED)
+find_package(remote_actuator REQUIRED)
 
 # Logic shared by all targets
 rosidl_generate_interfaces(${PROJECT_NAME}
   "srv/ParamPprGet.srv"
   "srv/ParamPprSet.srv"
-  "srv/VelocitySet.srv"
 )
 rosidl_get_typesupport_target(cpp_typesupport_target
   ${PROJECT_NAME} "rosidl_typesupport_cpp")
 
 include_directories(
   include
+  ${remote_actuator_INCLUDE_DIRS}
 )
 
 set(project_SOURCE_FILES
@@ -36,6 +37,7 @@ set(project_SOURCE_FILES
 set(project_DEPENDENCIES
   rclcpp
   std_msgs
+  remote_actuator
 )
 
 # Executable target

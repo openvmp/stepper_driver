@@ -15,16 +15,17 @@
 
 #include "rclcpp/callback_group.hpp"
 #include "rclcpp/rclcpp.hpp"
+#include "remote_actuator/implementation.hpp"
+#include "remote_actuator/srv/velocity_set.hpp"
 #include "std_msgs/msg/int32.hpp"
 #include "stepper_driver/srv/param_ppr_get.hpp"
 #include "stepper_driver/srv/param_ppr_set.hpp"
-#include "stepper_driver/srv/velocity_set.hpp"
 
 namespace stepper_driver {
 
 class Node;
 
-class Interface {
+class Interface : public remote_actuator::Implementation {
  public:
   Interface(rclcpp::Node *node);
   virtual ~Interface() {}
@@ -33,7 +34,6 @@ class Interface {
 
   rclcpp::Service<stepper_driver::srv::ParamPprGet>::SharedPtr param_ppr_get;
   rclcpp::Service<stepper_driver::srv::ParamPprSet>::SharedPtr param_ppr_set;
-  rclcpp::Service<stepper_driver::srv::VelocitySet>::SharedPtr velocity_set;
 
  protected:
   rclcpp::Node *node_;
@@ -42,15 +42,15 @@ class Interface {
 
   std::string get_prefix_();
 
-  virtual void param_ppr_get_handler_(
+  // pass 'velocity_set_real_' through
+  virtual void velocity_set_real_(double velocity) = 0;
+
+  virtual rclcpp::FutureReturnCode param_ppr_get_handler_(
       const std::shared_ptr<stepper_driver::srv::ParamPprGet::Request> request,
       std::shared_ptr<stepper_driver::srv::ParamPprGet::Response> response) = 0;
-  virtual void param_ppr_set_handler_(
+  virtual rclcpp::FutureReturnCode param_ppr_set_handler_(
       const std::shared_ptr<stepper_driver::srv::ParamPprSet::Request> request,
       std::shared_ptr<stepper_driver::srv::ParamPprSet::Response> response) = 0;
-  virtual void velocity_set_handler_(
-      const std::shared_ptr<stepper_driver::srv::VelocitySet::Request> request,
-      std::shared_ptr<stepper_driver::srv::VelocitySet::Response> response) = 0;
 };
 
 }  // namespace stepper_driver
