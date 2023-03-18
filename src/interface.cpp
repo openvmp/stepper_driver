@@ -25,8 +25,10 @@ Interface::Interface(rclcpp::Node *node)
   node->get_parameter("stepper_prefix", interface_prefix_);
   auto prefix = get_prefix_();
 
-  param_ppr =
-      node->create_publisher<std_msgs::msg::Int32>(prefix + "/param/ppr", 10);
+  param_ppr = node->create_publisher<std_msgs::msg::Int32>(
+      prefix + "/param/ppr",
+      rmw_qos_reliability_policy_t::RMW_QOS_POLICY_RELIABILITY_BEST_EFFORT |
+          rmw_qos_history_policy_t::RMW_QOS_POLICY_HISTORY_KEEP_LAST);
 
   param_ppr_get = node_->create_service<stepper_driver::srv::ParamPprGet>(
       prefix + "/param/ppr/get",
