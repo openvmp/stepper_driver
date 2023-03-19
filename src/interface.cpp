@@ -25,10 +25,22 @@ Interface::Interface(rclcpp::Node *node)
   node->get_parameter("stepper_prefix", interface_prefix_);
   auto prefix = get_prefix_();
 
-  param_ppr = node->create_publisher<std_msgs::msg::Int32>(
-      prefix + "/param/ppr",
-      rmw_qos_reliability_policy_t::RMW_QOS_POLICY_RELIABILITY_BEST_EFFORT |
-          rmw_qos_history_policy_t::RMW_QOS_POLICY_HISTORY_KEEP_LAST);
+  rmw_qos_profile_t rmw = {
+      .history = rmw_qos_history_policy_t::RMW_QOS_POLICY_HISTORY_KEEP_LAST,
+      .depth = 1,
+      .reliability =
+          rmw_qos_reliability_policy_t::RMW_QOS_POLICY_RELIABILITY_BEST_EFFORT,
+      .durability = RMW_QOS_POLICY_DURABILITY_TRANSIENT_LOCAL,
+      .deadline = {0, 50000000},
+      .lifespan = {0, 50000000},
+      .liveliness = RMW_QOS_POLICY_LIVELINESS_AUTOMATIC,
+      .liveliness_lease_duration = {0, 0},
+      .avoid_ros_namespace_conventions = false,
+  };
+  auto qos = rclcpp::QoS(rclcpp::QoSInitialization::from_rmw(rmw), rmw);
+
+  param_ppr =
+      node->create_publisher<std_msgs::msg::Int32>(prefix + "/param/ppr", qos);
 
   param_ppr_get = node_->create_service<stepper_driver::srv::ParamPprGet>(
       prefix + "/param/ppr/get",
