@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.8)
-project(stepper_driver)
+project(remote_stepper_driver)
 
 # Compiler settings
 if(NOT CMAKE_CXX_STANDARD)

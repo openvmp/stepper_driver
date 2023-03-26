@@ -7,11 +7,11 @@
  * Licensed under Apache License, Version 2.0.
  */
 
-#include "stepper_driver/interface.hpp"
+#include "remote_stepper_driver/interface.hpp"
 
 #include <functional>
 
-namespace stepper_driver {
+namespace remote_stepper_driver {
 
 Interface::Interface(rclcpp::Node *node)
     : remote_actuator::Implementation(node), node_{node} {
@@ -42,16 +42,18 @@ Interface::Interface(rclcpp::Node *node)
   param_ppr =
       node->create_publisher<std_msgs::msg::Int32>(prefix + "/param/ppr", qos);
 
-  param_ppr_get = node_->create_service<stepper_driver::srv::ParamPprGet>(
-      prefix + "/param/ppr/get",
-      std::bind(&Interface::param_ppr_get_handler_, this, std::placeholders::_1,
-                std::placeholders::_2),
-      ::rmw_qos_profile_default, callback_group_);
-  param_ppr_set = node_->create_service<stepper_driver::srv::ParamPprSet>(
-      prefix + "/param/ppr/set",
-      std::bind(&Interface::param_ppr_set_handler_, this, std::placeholders::_1,
-                std::placeholders::_2),
-      ::rmw_qos_profile_default, callback_group_);
+  param_ppr_get =
+      node_->create_service<remote_stepper_driver::srv::ParamPprGet>(
+          prefix + "/param/ppr/get",
+          std::bind(&Interface::param_ppr_get_handler_, this,
+                    std::placeholders::_1, std::placeholders::_2),
+          ::rmw_qos_profile_default, callback_group_);
+  param_ppr_set =
+      node_->create_service<remote_stepper_driver::srv::ParamPprSet>(
+          prefix + "/param/ppr/set",
+          std::bind(&Interface::param_ppr_set_handler_, this,
+                    std::placeholders::_1, std::placeholders::_2),
+          ::rmw_qos_profile_default, callback_group_);
 
   RCLCPP_DEBUG(node_->get_logger(), "Interface::Interface(): ended");
 }
@@ -65,4 +67,4 @@ std::string Interface::get_prefix_() {
   return prefix;
 }
 
-}  // namespace stepper_driver
+}  // namespace remote_stepper_driver
