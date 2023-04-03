@@ -20,8 +20,9 @@ Interface::Interface(rclcpp::Node *node)
   callback_group_ =
       node->create_callback_group(rclcpp::CallbackGroupType::Reentrant);
 
-  node->declare_parameter("stepper_prefix", std::string("/stepper/") +
-                                                std::string(node_->get_name()));
+  node->declare_parameter(
+      "stepper_prefix",
+      std::string("/actuator/") + std::string(node_->get_name()) + "/stepper");
   node->get_parameter("stepper_prefix", interface_prefix_);
   auto prefix = get_prefix_();
 
