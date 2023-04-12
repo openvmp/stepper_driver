@@ -25,10 +25,10 @@ namespace remote_stepper_driver {
 
 class Node;
 
-class Interface : public remote_actuator::Implementation {
+class Implementation : public remote_actuator::Implementation {
  public:
-  Interface(rclcpp::Node *node);
-  virtual ~Interface() {}
+  Implementation(rclcpp::Node *node);
+  virtual ~Implementation() {}
 
   rclcpp::Publisher<std_msgs::msg::Int32>::SharedPtr param_ppr;
 
